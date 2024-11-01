@@ -14,7 +14,7 @@ export type APIError = {
 };
 
 type APIResponseMeta = {
-    requestId: number;
+    requestId: string;
     responseTimeMs: number;
     path: string;
     requestMethod: keyof typeof RequestMethod;
