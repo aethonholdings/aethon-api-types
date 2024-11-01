@@ -1,37 +1,22 @@
 import { Paginated } from "aethon-paginate-types";
 import { HttpStatus, RequestMethod } from "./enums";
 
-export type Cacheable<T> = { key: string; cached: boolean; start: number; end?: number; ttl: number; data: T };
-export type CacheStrategyOptions = { key: string; cached: boolean; cache: boolean; ttl?: number };
+// exported types for key API objects
 export type APIResponse<T> = APIResponseData<T> | APIResponseError;
-export type APIResponseData<T> = APIResponseOneData<T> | APIResponsePaginatedData<T>;
-export interface APIResponseError extends APIResponseMeta {
-    success: false;
-    error: APIError;
-}
-export type KeyBuilder = any[];
-
-interface APIResponseOneData<T> extends APIResponseSuccess {
-    paginated: false;
-    payload: T | T[];
-}
-
-interface APIResponsePaginatedData<T> extends APIResponseSuccess {
-    paginated: true;
-    payload: Paginated<T>;
-}
-
-interface APIResponseSuccess extends APIResponseMeta {
-    success: true;
-}
-
-interface APIError {
+export type APIResponseData<T> = APIResponseMeta & { success: true } & (
+        | { paginated: true; payload: Paginated<T> }
+        | { paginated: false; payload: T | T[] }
+    );
+export type APIResponseError = APIResponseMeta & { success: false; error: APIError };
+export type APIError = {
     status: HttpStatus;
     message: string;
-}
+};
 
-interface APIResponseMeta {
+type APIResponseMeta = {
+    requestId: number;
+    responseTimeMs: number;
     path: string;
     requestMethod: keyof typeof RequestMethod;
     success: boolean;
-}
+};
