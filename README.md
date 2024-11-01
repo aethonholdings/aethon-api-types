@@ -14,7 +14,7 @@ All API responses conform to the `APIResponse<T>` type, whereby `<T>` is the DTO
 #### Data response
 ```
 export interface APIResponseData<T> {
-  requestId: number                             // unique id per request
+  requestId: string                             // unique id per request
   success: boolean = true                       // true for OK code
   path: string                                  // the endpoint path
   requestMethod: keyof typeof RequestMethod     // 'GET' | 'POST' | 'PUT' etc.
@@ -26,7 +26,7 @@ export interface APIResponseData<T> {
 #### Error Response
 ```
 export interface APIResponseError {
-  requestId: number                             // unique id per request
+  requestId: string                             // unique id per request
   success: boolean = false                      // false for error
   path: string                                  // the endpoint path
   requestMethod: keyof typeof RequestMethod     // 'GET' | 'POST' | 'PUT' etc.
